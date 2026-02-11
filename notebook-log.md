@@ -30,11 +30,31 @@ conda activate ncbi_datasets
 # Installing NCBI's datasets package
 conda install -c conda-forge ncbi_datasets-cli
 ```
-
+In the data/ folder:
 `datasets download genome accession [assembly_ID] --include gff3,rna,cds,protein,genome,seq-report`
 
 
 ### Quality control ###
-I used BUSCO to evaluate the completeness of each genome. 
+I used BUSCO (Benchmarking Universal Single-Copy Orthologs) to evaluate the completeness of each genome. 
 
+Installing BUSCO:
+```
+conda create -n busco_env -c conda-forge -c bioconda busco=6.0.0 sepp=4.5.5
+conda activate busco_env
+```
+
+To see what datasets are available:
+`busco --list-datasets`
+It looks like we can use acari_odb12 (it supposedly has 1957 genes).
+
+In the GCA_964199305.2/ folder (corresponds to I. pacificus):
 `busco -i GCA_964199305.2_IXPA_v2_genomic.fna -l acari -m genome -o ~/phylo-class/data/i_pacificus_genome/i_pacificus_busco_acari`
+
+I got this error message: 
+```
+anaconda3/envs/busco_env/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 7 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+```
+Apparently this means that BUSCO was abnormally stopped due to insufficient memory. I had to do wsl --shutdown in the PowerShell since I was getting a WSL Catastrophic Error with Ubuntu crashing.
+
+I'm going to get Badger Compute set up so I can go beyond my little laptop's limitations.
