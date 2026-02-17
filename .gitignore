@@ -1,4 +1,7 @@
-data/*
+raw_data/*
+blast/*
+
+!README.md
 
 # Compiled source #
 ###################

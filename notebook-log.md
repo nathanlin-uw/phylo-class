@@ -31,11 +31,12 @@ conda activate ncbi_datasets
 conda install -c conda-forge ncbi_datasets-cli
 ```
 In the data/ folder:
-`datasets download genome accession [assembly_ID] --include gff3,rna,cds,protein,genome,seq-report`
+`datasets download genome accession [assembly_ID] --include genome`
 
+I unzipped the zip folders and just kept the .fna genome sequences files.
 
 ### Quality control ###
-I used BUSCO (Benchmarking Universal Single-Copy Orthologs) to evaluate the completeness of each genome. 
+I had wanted to use BUSCO (Benchmarking Universal Single-Copy Orthologs) to evaluate the completeness of each genome. 
 
 Installing BUSCO:
 ```
@@ -56,5 +57,35 @@ anaconda3/envs/busco_env/lib/python3.12/multiprocessing/resource_tracker.py:279:
   warnings.warn('resource_tracker: There appear to be %d '
 ```
 Apparently this means that BUSCO was abnormally stopped due to insufficient memory. I had to do wsl --shutdown in the PowerShell since I was getting a WSL Catastrophic Error with Ubuntu crashing.
+I had tried running it with fewer cores and everything but I think the fact that these genomes are so large makes BUSCO exceed the 12 gigabyte RAM I have to work with.
 
-I'm going to get Badger Compute set up so I can go beyond my little laptop's limitations.
+In any case these are published assemblies and for the non-Ixodes taxa I had picked the ones with a public >89% BUSCO score on NCBI.
+BUSCO scores were not published for many of the Ixodes species, though.
+
+### Simplifying my data ###
+The genomes are a bit too large, so I am just going to try the ITS2, ITS1, 18S, and 28S nuclear genes for this project.
+- For background on marker selection I read Cruickshank 2002 (https://doi.org/10.11158/saa.7.1.1)
+
+I have a reference ITS2 sequence from I. ricinus for BLASTing later from https://www.ncbi.nlm.nih.gov/nuccore/D88884.1. I pulled the ITS2 sequence out and put it in the fasta its2_ricinus.fna.
+
+I created a new conda environment with NCBI's blast package, created a folder called blast/, and created a subfolder reference_seqs/ for the ITS2, ITS1, 18S, and 28S blast queries.
+All next steps will be in blast/.
+
+Made a folder for the results for each gene:
+`mkdir its2` etc
+Made a folder for a blast database for each species
+`mkdir i_pacificus_db` etc
+
+For each species (this is I. pacificus with ITS2 for example):
+1. Use the genome fasta to make the blast database in the designated folder:
+`makeblastdb -in ../raw_data/i_pacificus.fna -dbtype nucl -parse_seqids -out ./i_pacificus_db/i_pacificus_db`
+2. Run blastn to find matches in the genome database to the reference gene sequence:
+`blastn -query ./reference_seqs/its2_ricinus.fna -db ./i_pacificus_db/i_pacificus_db -out ./its2/i_pacificus_its2_hits.out -outfmt 6`
+3. Inspect the output and find the highest-scored hit GOING IN THE FORWARD DIRECTION (start index < end index) 
+- Note the subject ID and the alignment start and end indices (columns 2, 9, and 10)
+- There is an explanation for the BLASTn output here: https://www.metagenomics.wiki/tools/blast/blastn-output-format-6
+`less ./its2/i_pacificus_its2_hits.out`
+4. Use blastdbcmd to pull out the sequence using the subject ID and start/end indices
+`blastdbcmd -db ./i_pacificus_db/i_pacificus_db -entry CAXMZB020025033.1 -range 2873-3968 -out ./its2/its2_i_pacificus.fna`
+
+REPEAT FOR EACH SPECIES AND EACH GENE
