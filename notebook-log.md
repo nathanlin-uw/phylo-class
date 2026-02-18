@@ -67,6 +67,8 @@ The genomes are a bit too large, so I am just going to try the ITS2, ITS1, 18S, 
 - For background on marker selection I read Cruickshank 2002 (https://doi.org/10.11158/saa.7.1.1)
 
 I have a reference ITS2 sequence from I. ricinus for BLASTing later from https://www.ncbi.nlm.nih.gov/nuccore/D88884.1. I pulled the ITS2 sequence out and put it in the fasta its2_ricinus.fna.
+I did the same for ITS1 from I. rubicundus (https://www.ncbi.nlm.nih.gov/nuccore/KY457497.1) and also 28S from I. rubicundus (same link https://www.ncbi.nlm.nih.gov/nuccore/KY457497.1)
+For 18S I used I. affinis (https://www.ncbi.nlm.nih.gov/nuccore/L76350.1)
 
 I created a new conda environment with NCBI's blast package, created a folder called blast/, and created a subfolder reference_seqs/ for the ITS2, ITS1, 18S, and 28S blast queries.
 All next steps will be in blast/.
