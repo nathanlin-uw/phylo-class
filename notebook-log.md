@@ -97,7 +97,7 @@ Running blastn (for ITS-2, would need to replace the reference seq and output na
 - First had to make the its2 directory
 `for file_name in ../raw_data/*; do blastn -query ./reference_seqs/its2_ricinus.fna -db ./db_${file_name:12:-4}/db_${file_name:12:-4} -out ./its2_hits/its2_hits_${file_name:12:-4}.out -outfmt 6; done`
 
-##### LITTLE HICCUP HERE (Starting the Scriptification) #####
+### LITTLE HICCUP HERE (Starting the Scriptification) ###
 My git system broke I think something got corrupted somehow but I deleted the repository only to realize that oh wait I have all the data there and it's not on the GitHub so I will need to do everything again. So it's time to learn how to do bash scripting so I can make this a smoother process. Thank goodness I have some degree of reproducibility already.
 
 Success! I wrote a script that I can use to redownload everything and get the .fna sequences into the raw_data folder. It'll be in the scripts/ folder, 1_data_downloading.sh.
@@ -108,9 +108,21 @@ Miscellaneous script writing things:
 	- Arrays in bash are like ( "item 1" "item 2" "etc" )
 	- Remember the for item in list; do [something]; done
 	- You can have associative arrays (dictionaries) but you have to declare them first
-		○ declare -A dict_name=( ["key1"]="value1" ["key2"]="value2" )
-		○ To iterate through these use this:
-			§ for key in "${!dict_name[@]}"; do ...; done
-			§ Access keys with "$key" and values with "${dict_name[$key]}"
+		- declare -A dict_name=( ["key1"]="value1" ["key2"]="value2" )
+		- To iterate through these use this:
+			- for key in "${!dict_name[@]}"; do ...; done
+			- Access keys with "$key" and values with "${dict_name[$key]}"
 	- unzip -o file.zip -d ./dir_to_extract_to
--o for overwriting everything
+		- -o for overwriting everything
+
+I also made two scripts for setting up the blast folder structure, producing best genome sequence matches for the reference sequences, and pulling those best matches out to fasta files and compiling them.
+
+
+### Alignment with MAFFT ###
+I will be aligning the 28s sequences first.
+
+I ran MAFFT with the \*G-INS-i accuracy-oriented, iterative refinement method incorporating global pairwise alignment because I had fewer than 200 sequences (only 11). I chose \*G-INS-i instead of \*L-INS-i or \*E-INS-i because the sequences were of similar length and did not contain large unalignable regions. By default, the local pairwise alignment gap opening penalty was -2.00, the local pairwise alignment offset value was 0.1, and the local pairwise alignment gap extension penalty was -0.1.
+
+(In the alignments/ folder, with the alignments_env conda environment containing MAFFT active)
+`conda activate alignments_env` 
+`mafft --globalpair --maxiterate 1000 ../blast/28s_seqs/combined_28s.fna > 28s_mafft_align.fna`
