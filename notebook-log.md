@@ -128,10 +128,22 @@ I will be aligning the 28s sequences first.
 
 I am using MAFFT, which uses the Fast Fourier Transform approach to infer homologous regions between sequences to reduce comparisons and time needed for sequence alignment. It assumes at the very least that the input sequences are homologous.
 
-I ran MAFFT with the \*G-INS-i accuracy-oriented, iterative refinement method incorporating global pairwise alignment because I had fewer than 200 sequences (only 11). I chose \*G-INS-i instead of \*L-INS-i or \*E-INS-i because the sequences were of similar length and did not contain large unalignable regions. By default, the local pairwise alignment gap opening penalty was -2.00, the local pairwise alignment offset value was 0.1, and the local pairwise alignment gap extension penalty was -0.1.
+I ran MAFFT with the \*G-INS-i accuracy-oriented, iterative refinement method incorporating global pairwise alignment because I had fewer than 200 sequences (only 11). I chose \*G-INS-i instead of \*L-INS-i or \*E-INS-i because the sequences were of similar length and did not contain large unalignable regions. By default, the local pairwise alignment gap opening penalty was -2.00, the local pairwise alignment offset value was 0.1, and the local pairwise alignment gap extension penalty was -0.1. 
 
 (In the alignments/ folder, with the alignments_env conda environment containing MAFFT active)
 `conda activate alignments_env` 
 `mafft --globalpair --maxiterate 1000 ../blast/28s_seqs/combined_28s.fna > 28s_mafft_align.fna`
 
-I can scriptify this in `4_align_seqs.sh`! This would run MAFFT, MUSCLE, and ClustalW (perhaps even CACTUS later), and put their alignments in the alignments/ folder.
+For the ITS1 and ITS2 alignments I use the \*L-INS-i method because the available sequences are no longer of similar length. If these are an issue later I will just exclude them.
+`mafft --localpair --maxiterate 1000 ../blast/its1_seqs/combined_its1.fna > its1_mafft_align.fna`
+
+(Finish this later) I can scriptify this in `4_align_seqs.sh`! This would run MAFFT, MUSCLE, and ClustalW (perhaps even CACTUS later), and put their alignments in the alignments/ folder. 
+
+### Distance and Parsimony Trees in R ###
+I used the ape and phangorn packages in R to make a neighbor joining and maximum parsimony tree for each of the genes. 
+
+Setup: For both trees, I used the `fasta2dnabin` function to convert the fasta files to a DNAbin object, then used that DNAbin object to create a matrix of distances with the `dist.dna` function. For the distance tree, I used the "TN93" model option for the flexibility of differential transition-transversion rates, heterogeneous base frequencies, and between-site substitution rate variation, while for the parsimony tree, I used the "raw" option for p-distances. For the parsimony tree, I also converted the DNAbin object to a phyDat object with `as.phyDat`.
+
+Tree making: I used the `nj` function to create the neighbor-joining tree and the initial tree for the parsimony tree search start. For the maximum parsimony tree, I used the `optim.parsimony` function with the phangorn phyDat object.
+
+I made the trees for each gene individually first (I will combine them later). Neither tree worked for ITS1 because there was too much missing data across the sequences. The 18S and 28S genes produced the same trees in all instances, and for those genes, both the neighbor joining and maximum parsimony trees wrongly treated Ixodes as the outgroup with Ornithodoros the most ancestral taxon of a clade with all of the other genera. For the ITS2 distance tree, I. hexagonus was not part of the outgroup, while it appeared as an outgroup in the maximum parsimony tree.
