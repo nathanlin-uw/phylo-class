@@ -34,9 +34,9 @@ species_list=(
 
 
 # Making blast databases for each species
-for species in "${species_list[@]}"; do
-	makeblastdb -in ../raw_data/"$species".fna -dbtype nucl -parse_seqids -out ../blast/db_"$species"/db_"$species"
-done
+#for species in "${species_list[@]}"; do
+#	makeblastdb -in ../raw_data/"$species".fna -dbtype nucl -parse_seqids -out ../blast/db_"$species"/db_"$species"
+#done
 
 # Debugging checkpoint
 echo "Finished making blast databases."
