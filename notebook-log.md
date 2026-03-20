@@ -159,4 +159,7 @@ After the runs, I moved the files to the `results/` folder with `for file in *.r
 To run IQ-TREE, I did `iqtree3 -s 18s_mafft_align.fna` for each alignment.
 After the runs, I moved the files to the `results/` folder with `for file in *.fna.*; do mv $file ../results/iqtree; done`.
 
-RAxML and IQ-TREE both now have automatic model selection. 
+RAxML and IQ-TREE both now have automatic model selection (according to Bayesian Information Criterion).
+- For both 18S and 28S, RAxML and IQ-TREE both selected the HKY+FE+I models, which have two parameters for transition and transversion rates, equal nucleotide frequencies, and invariant sites.
+- For ITS1, RAxML selected the K81+FE+G4m model, and IQ-TREE selected the K3P+G4 model (a synonym). This model has one parameter for transitions but two different ones for the two possible types of transversions, with equal nucleotide frequencies and gamma-distributed rate heterogeneity among different sites.
+- For ITS2, RAxML selected the HKY+F0+G4m model, and IQ-TREE selected the HKY+F+G4 model (also a synonym). This model has only two parameters for transition and transversion rates, with unequal nucleotide "stationary frequencies" and gamma-distributed rate heterogeneity among different sites.  
