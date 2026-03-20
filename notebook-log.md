@@ -147,3 +147,16 @@ Setup: For both trees, I used the `fasta2dnabin` function to convert the fasta f
 Tree making: I used the `nj` function to create the neighbor-joining tree and the initial tree for the parsimony tree search start. For the maximum parsimony tree, I used the `optim.parsimony` function with the phangorn phyDat object.
 
 I made the trees for each gene individually first (I will combine them later). Neither tree worked for ITS1 because there was too much missing data across the sequences. The 18S and 28S genes produced the same trees in all instances, and for those genes, both the neighbor joining and maximum parsimony trees wrongly treated Ixodes as the outgroup with Ornithodoros the most ancestral taxon of a clade with all of the other genera. For the ITS2 distance tree, I. hexagonus was not part of the outgroup, while it appeared as an outgroup in the maximum parsimony tree.
+
+### Maximum Likelihood for Gene Trees ###
+I used RAxML-NG version 2.0.0 and IQ-TREE version 3 to make maximum-likelihood trees for each gene.
+
+To set this up, I made a results directory and the directories "iqtree" and "raxml" inside. I also had to remove the colons from my fasta files because they interfere with RAxML. To do this I did the following in the alignments\ folder: `for file in *.fna; do sed -i "s/://g"; done`
+
+(In the alignments folder)
+To run RAxML, I did `raxml-ng --msa its2_mafft_align.fna --model auto --data-type DNA` for each alignment.
+After the runs, I moved the files to the `results/` folder with `for file in *.raxml.*; do mv $file ../results/raxml; done`.
+To run IQ-TREE, I did `iqtree3 -s 18s_mafft_align.fna` for each alignment.
+After the runs, I moved the files to the `results/` folder with `for file in *.fna.*; do mv $file ../results/iqtree; done`.
+
+RAxML and IQ-TREE both now have automatic model selection. 
