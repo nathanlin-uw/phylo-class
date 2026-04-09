@@ -137,7 +137,7 @@ I ran MAFFT with the \*G-INS-i accuracy-oriented, iterative refinement method in
 For the ITS1 and ITS2 alignments I use the \*L-INS-i method because the available sequences are no longer of similar length. If these are an issue later I will just exclude them.
 `mafft --localpair --maxiterate 1000 ../blast/its1_seqs/combined_its1.fna > its1_mafft_align.fna`
 
-(Finish this later) I can scriptify this in `4_align_seqs.sh`! This would run MAFFT, MUSCLE, and ClustalW (perhaps even CACTUS later), and put their alignments in the alignments/ folder. 
+(Finish this later) I can scriptify this in `4_align_seqs.sh`! This would run MAFFT, MUSCLE, and ClustalW, and put their alignments in the alignments/ folder. 
 
 ### Distance and Parsimony Trees in R ###
 I used the ape and phangorn packages in R to make a neighbor joining and maximum parsimony tree for each of the genes. 
@@ -163,3 +163,8 @@ RAxML and IQ-TREE both now have automatic model selection (according to Bayesian
 - For both 18S and 28S, RAxML and IQ-TREE both selected the HKY+FE+I models, which have two parameters for transition and transversion rates, equal nucleotide frequencies, and invariant sites.
 - For ITS1, RAxML selected the K81+FE+G4m model, and IQ-TREE selected the K3P+G4 model (a synonym). This model has one parameter for transitions but two different ones for the two possible types of transversions, with equal nucleotide frequencies and gamma-distributed rate heterogeneity among different sites.
 - For ITS2, RAxML selected the HKY+F0+G4m model, and IQ-TREE selected the HKY+F+G4 model (also a synonym). This model has only two parameters for transition and transversion rates, with unequal nucleotide "stationary frequencies" and gamma-distributed rate heterogeneity among different sites.  
+
+### Bayesian Inference with MrBayes ###
+I used MrBayes version 3.2.7a to make Bayesian Inference trees for each gene.
+
+First, I had to convert my alignment files from .fna to .nex (nexus format). I navigated to the alignments/ folder, then ran this code: `for file in *.fna; do seqmagick convert "$file" "${file: 0:-4}.nex" --alphabet dna; done`. To make this work, I first activated the base conda environment for Python access, and used pip to install seqmagick (`pip install seqmagick`). The {file:0:-4} means we cut off the last four spaces of the name (.fna) to be replaced with .nex, and the `--alphabet dna` bit is necessary for nexus output. After running that line, I end up with a set of `[gene]_mafft_align.nex` files to go along with each `[gene]_mafft_align.fna` original file.
