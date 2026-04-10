@@ -196,3 +196,5 @@ Used the manual here: `https://github.com/NBISweden/MrBayes/blob/develop/doc/man
 Parameter selections: we are using the HKY model with gamma-distributed rate heterogeneity across sites and four rate categories for approximation; for MCMC we are doing default 4 chains (3 heated 1 cold), number of runs is 2 by default, print and sample frequency we can do default 1000 and 500 since we have more generations (though we can increase the frequency for more resolution later), no burn-in specification needed (the first 25% of samples from the cold chain are discarded by default).
 
 I ran MrBayes (in `mrbayes/`) using the command `mb 28s_mafft_align_mb.nex`. 
+
+This analysis got all of the relationships right for 28S! 
