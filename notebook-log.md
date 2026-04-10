@@ -146,12 +146,12 @@ Setup: For both trees, I used the `fasta2dnabin` function to convert the fasta f
 
 Tree making: I used the `nj` function to create the neighbor-joining tree and the initial tree for the parsimony tree search start. For the maximum parsimony tree, I used the `optim.parsimony` function with the phangorn phyDat object.
 
-I made the trees for each gene individually first (I will combine them later). Neither tree worked for ITS1 because there was too much missing data across the sequences. The 18S and 28S genes produced the same trees in all instances, and for those genes, both the neighbor joining and maximum parsimony trees wrongly treated Ixodes as the outgroup with Ornithodoros the most ancestral taxon of a clade with all of the other genera. For the ITS2 distance tree, I. hexagonus was not part of the outgroup, while it appeared as an outgroup in the maximum parsimony tree.
+I made the trees for each gene individually first (I will combine them later). Neither tree worked for ITS1 because there was too much missing data across the sequences. For both the 18S and 28S genes, both the neighbor joining and maximum parsimony trees wrongly treated Ixodes as an outgroup, with Ornithodoros the most ancestral taxon of a clade with all of the other genera. Ixodes was monophyletic in the neighbor joining trees but paraphyletic in the parsimony trees. For the ITS2 distance tree, I. hexagonus was not part of the outgroup, while it appeared as an outgroup in the maximum parsimony tree.
 
 ### Maximum Likelihood for Gene Trees ###
 I used RAxML-NG version 2.0.0 and IQ-TREE version 3 to make maximum-likelihood trees for each gene.
 
-To set this up, I made a results directory and the directories "iqtree" and "raxml" inside. I also had to remove the colons from my fasta files because they interfere with RAxML. To do this I did the following in the alignments\ folder: `for file in *.fna; do sed -i "s/://g"; done`
+To set this up, I made a results directory and the directories "iqtree" and "raxml" inside. I also had to remove the colons from my fasta files because they interfere with RAxML. To do this I did the following in the alignments\ folder: `for file in *.fna; do sed -i "s/://g" $file; done`
 
 (In the alignments folder)
 To run RAxML, I did `raxml-ng --msa its2_mafft_align.fna --model auto --data-type DNA` for each alignment.
@@ -160,7 +160,8 @@ To run IQ-TREE, I did `iqtree3 -s 18s_mafft_align.fna` for each alignment.
 After the runs, I moved the files to the `results/` folder with `for file in *.fna.*; do mv $file ../results/iqtree; done`.
 
 RAxML and IQ-TREE both now have automatic model selection (according to Bayesian Information Criterion).
-- For both 18S and 28S, RAxML and IQ-TREE both selected the HKY+FE+I models, which have two parameters for transition and transversion rates, equal nucleotide frequencies, and invariant sites.
+- For 18S, RAxML and IQ-TREE both selected the HKY+FE+I models, which has two parameters for transition and transversion rates, equal nucleotide frequencies, and invariant sites.
+- For 28S, RAxML and IQ-TREE both selected the TIM3+FO+I+G4m model, which has substitution rates for AC=CG and AT=GT, as well as unequal base frequencies, and both a proportion of invariant sites and gamma-distributed rate heterogeneity among different sites. 
 - For ITS1, RAxML selected the K81+FE+G4m model, and IQ-TREE selected the K3P+G4 model (a synonym). This model has one parameter for transitions but two different ones for the two possible types of transversions, with equal nucleotide frequencies and gamma-distributed rate heterogeneity among different sites.
 - For ITS2, RAxML selected the HKY+F0+G4m model, and IQ-TREE selected the HKY+F+G4 model (also a synonym). This model has only two parameters for transition and transversion rates, with unequal nucleotide "stationary frequencies" and gamma-distributed rate heterogeneity among different sites.  
 
@@ -168,3 +169,23 @@ RAxML and IQ-TREE both now have automatic model selection (according to Bayesian
 I used MrBayes version 3.2.7a to make Bayesian Inference trees for each gene.
 
 First, I had to convert my alignment files from .fna to .nex (nexus format). I navigated to the alignments/ folder, then ran this code: `for file in *.fna; do seqmagick convert "$file" "${file: 0:-4}.nex" --alphabet dna; done`. To make this work, I first activated the base conda environment for Python access, and used pip to install seqmagick (`pip install seqmagick`). The {file:0:-4} means we cut off the last four spaces of the name (.fna) to be replaced with .nex, and the `--alphabet dna` bit is necessary for nexus output. After running that line, I end up with a set of `[gene]_mafft_align.nex` files to go along with each `[gene]_mafft_align.fna` original file.
+
+My MrBayes block looked like this: 
+begin mrbayes;
+ set autoclose=yes; # automatically closes MrBayes after the run ends
+ prset brlenspr=unconstrained:exp(10.0);   # branch lengths can vary freely with an exponential prior having a mean of 0.1 
+ prset shapepr=exp(1.0);
+ prset tratiopr=beta(1.0,1.0);
+ prset statefreqpr=dirichlet(1.0,1.0,1.0,1.0);
+ lset nst=2 rates=gamma ngammacat=4;
+ mcmcp ngen=10000 samplefreq=10 printfreq=100 nruns=2 nchains=4 savebrlens=yes;
+ outgroup ;
+ mcmc;
+ sumt;
+end;
+
+Prior selections: branch lengths with exponential distribution having mean of 0.1 substitutions per site means we can have mostly short but possibly long branches, gamma shape parameter for rate variation between sites with exponential distribution having mean of 1 means we are assuming moderate rate heterogeneity and not going too extreme, we are picking uniform and uninformative priors for transition/transversion ratio and nucleotide frequencies/bias
+
+Used the manual here: `https://github.com/NBISweden/MrBayes/blob/develop/doc/manual/Manual_MrBayes_v3.2.pdf`
+Parameter selections: we are using the HKY model with gamma-distributed rate heterogeneity across sites and four rate categories for approximation; for MCMC we are doing default 4 chains (3 heated 1 cold), number of runs is 2 by default, print and sample frequency we can do default 1000 and 500 since we have more generations (though we can increase the frequency for more resolution later), no burn-in specification needed (the first 25% of samples from the cold chain are discarded by default) 
+
