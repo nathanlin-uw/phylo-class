@@ -1,0 +1,13 @@
+begin mrbayes;
+  set autoclose=yes;
+  prset brlenspr=unconstrained:exp(10.0);   
+  prset shapepr=exp(1.0);
+  prset tratiopr=beta(1.0,1.0);
+  prset statefreqpr=dirichlet(1.0,1.0,1.0,1.0);
+  lset nst=2 rates=gamma ngammacat=4;
+  mcmcp ngen=1000000 samplefreq=500 printfreq=1000 nruns=2 nchains=4 savebrlens=yes;
+  outgroup O_turicata;
+  mcmc;
+  sumt;
+end;
+ 

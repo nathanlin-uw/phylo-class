@@ -170,7 +170,11 @@ I used MrBayes version 3.2.7a to make Bayesian Inference trees for each gene.
 
 First, I had to convert my alignment files from .fna to .nex (nexus format). I navigated to the alignments/ folder, then ran this code: `for file in *.fna; do seqmagick convert "$file" "${file: 0:-4}.nex" --alphabet dna; done`. To make this work, I first activated the base conda environment for Python access, and used pip to install seqmagick (`pip install seqmagick`). The {file:0:-4} means we cut off the last four spaces of the name (.fna) to be replaced with .nex, and the `--alphabet dna` bit is necessary for nexus output. After running that line, I end up with a set of `[gene]_mafft_align.nex` files to go along with each `[gene]_mafft_align.fna` original file.
 
-My MrBayes block looked like this: 
+In order to have branch names as species rather than contig ids/sequence ranges, I made a tab-separated mapping file `seqrange_sp_mapping.tsv` with one column being the ContigID.start-end and the other being the species name. 
+I then used this chain of commands to replace the sequence ranges with species name in the nexus files: `while IFS=$'\t' read -r seqrange sp; do for file in *.nex; do sed -i "s/${seqrange}/${sp}/g" "$file"; done ; done < seqrange_sp_mapping.tsv`. 
+Lastly, I removed single quotes with `for file in *.nex; do sed -i "s/'//g" $file; done`. This throws an error in MrBayes (it doesn't accept quotes in the taxon names)
+
+My MrBayes block looked like this (saved in `mrbayes/mrbayesblock.txt`): 
 begin mrbayes;
  set autoclose=yes; # automatically closes MrBayes after the run ends
  prset brlenspr=unconstrained:exp(10.0);   # branch lengths can vary freely with an exponential prior having a mean of 0.1 
@@ -178,14 +182,17 @@ begin mrbayes;
  prset tratiopr=beta(1.0,1.0);
  prset statefreqpr=dirichlet(1.0,1.0,1.0,1.0);
  lset nst=2 rates=gamma ngammacat=4;
- mcmcp ngen=10000 samplefreq=10 printfreq=100 nruns=2 nchains=4 savebrlens=yes;
- outgroup ;
+ mcmcp ngen=1000000 samplefreq=500 printfreq=1000 nruns=2 nchains=4 savebrlens=yes;
+ outgroup O_turicata;
  mcmc;
  sumt;
 end;
 
+I added this block to the nexus files with this command (in `alignments/`): `for file in *.nex; do cat "$file" ../mrbayes/mrbayesblock.txt > "../mrbayes/${file:0:-4}_mb.nex"; done` 
+
 Prior selections: branch lengths with exponential distribution having mean of 0.1 substitutions per site means we can have mostly short but possibly long branches, gamma shape parameter for rate variation between sites with exponential distribution having mean of 1 means we are assuming moderate rate heterogeneity and not going too extreme, we are picking uniform and uninformative priors for transition/transversion ratio and nucleotide frequencies/bias
 
 Used the manual here: `https://github.com/NBISweden/MrBayes/blob/develop/doc/manual/Manual_MrBayes_v3.2.pdf`
-Parameter selections: we are using the HKY model with gamma-distributed rate heterogeneity across sites and four rate categories for approximation; for MCMC we are doing default 4 chains (3 heated 1 cold), number of runs is 2 by default, print and sample frequency we can do default 1000 and 500 since we have more generations (though we can increase the frequency for more resolution later), no burn-in specification needed (the first 25% of samples from the cold chain are discarded by default) 
+Parameter selections: we are using the HKY model with gamma-distributed rate heterogeneity across sites and four rate categories for approximation; for MCMC we are doing default 4 chains (3 heated 1 cold), number of runs is 2 by default, print and sample frequency we can do default 1000 and 500 since we have more generations (though we can increase the frequency for more resolution later), no burn-in specification needed (the first 25% of samples from the cold chain are discarded by default).
 
+I ran MrBayes (in `mrbayes/`) using the command `mb 28s_mafft_align_mb.nex`. 

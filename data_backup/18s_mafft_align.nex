@@ -1,0 +1,319 @@
+#NEXUS
+begin data;
+dimensions ntax=11 nchar=1798;
+format datatype=dna missing=? gap=- interleave;
+matrix
+'A_americanum'           gtaatcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-taaggcgaaaccg
+'D_variabilis'    gtaatcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-taaggcgaaaccg
+'H_longicornis' gtaatcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-taaggcgaaaccg
+'I_hexagonus'         gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-caaggcgaaaccg
+'I_inopinatus'    gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-caaggcgaaaccg
+'I_pacificus'        gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-caaggcgaaaccg
+'I_persulcatus'       gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-caaggcgaaaccg
+'I_ricinus'      gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-caaggcgaaaccg
+'I_scapularis'         gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-caaggcgaaaccg
+'O_turicata'         gtagtcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaaccaaggcgaaaccg
+'R_sanguineus'           gtaatcatatgcttgtctcaaagattaagccatgcatgtctaagtacatgccgaaa-taaggcgaaaccg
+
+'A_americanum'           cgaatggctcattaaatcagttatggttccttagatcgtttctttctacttggacaactgtggcaattct
+'D_variabilis'    cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'H_longicornis' cgaatggctcattaaatcagttatggttccttagattgtttcttcctacttggataactgtggcaattct
+'I_hexagonus'         cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'I_inopinatus'    cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'I_pacificus'        cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'I_persulcatus'       cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'I_ricinus'      cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'I_scapularis'         cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+'O_turicata'         cgaatggctcattaaatcagttatggttccttagattgtttcatgctacttggataactgtggcaattct
+'R_sanguineus'           cgaatggctcattaaatcagttatggttccttagatcgtttcttcctacttggataactgtggcaattct
+
+'A_americanum'           agagctaatacatgcattgagcctgaa--ggccttt-ggctgacgggcgcttttattagaccaagaccca
+'D_variabilis'    agagctaatacatgcagtgagcctgaa--gcccttt-gggcgacgggtgcttttattagaccaagatcga
+'H_longicornis' agagctaatacatgcagtgagcccttgtgtcctttttggccagcgggtgcttttattagaccaagatcga
+'I_hexagonus'         agagctaatacatgcagtgagcccgaa--gcccctcggggcgacgggtgcttttattagaccaagatcaa
+'I_inopinatus'    agagctaatacatgcagtgagcccgaa--gcccctcggggcgacgggtgcttttattagaccaagatcaa
+'I_pacificus'        agagctaatacatgcagtgagcccgaa--gcccctcggggcgacgggtgcttttattagaccaagatcaa
+'I_persulcatus'       agagctaatacatgcagtgagcccgaa--gcccctcggggcgacgggtgcttttattagaccaagatcaa
+'I_ricinus'      agagctaatacatgcagtgagcccgaa--gcccctcggggcgacgggtgcttttattagaccaagatcaa
+'I_scapularis'         agagctaatacatgcagtgagcccgaa--gcccctcggggcgacgggtgcttttattagaccaagatcaa
+'O_turicata'         agagctaatacatgcaatgaacctgggctgccctcgggatgttcgggtgcttttattagaccaagatcaa
+'R_sanguineus'           agagctaatacatgcagtgagcctgga--gcccttt-gggtaacgggtgcttttattagaccaagatcga
+
+'A_americanum'           tcgggttct--gcccgtactctgtggtgactctggataactttgtgctgatcgcatggccatgagccggc
+'D_variabilis'    tcgggtttc-ggcccgtattgtgtggtgactctggataactttgtgctgatcgcatggccacgagccggc
+'H_longicornis' tcgggcttc-ggcccgcattgtgtggtgactctggataactttgtgctgatcgcatggccacgagccggc
+'I_hexagonus'         tcgggcttc-ggtccgttttgtgtggtgactctggataactttgtgctgatcgcacggccacgagccggc
+'I_inopinatus'    tcgggcttc-ggtccgttttgtgtggtgactctggataactttgtgctgatcgcacggccacgagccggc
+'I_pacificus'        tcgggcttc-ggtccgttttgtgtggtgactctggataactttgtgctgatcgcacggccacgagccggc
+'I_persulcatus'       tcgggcctc-ggtccgttttgtgtggtgactctggataactttgtgctgatcgcacggccacgagccggc
+'I_ricinus'      tcgggcttc-ggtccgttttgtgtggtgactctggataactttgtgctgatcgcacggccacgagccggc
+'I_scapularis'         tcgggcttc-ggtccgttttgtgtggtgactctggataactttgtgctgatcgcacggccacgagccggc
+'O_turicata'         acgggtctctggcccgtggtttgtggtgactctggataacttt-cgctgatcgcacgccttcggg-cggc
+'R_sanguineus'           tcgggtttc-ggcccgtattgtgtggtgactctggataactttgtgctgatcgcatggccacgagccggc
+
+'A_americanum'           gacgtttctttcaagtgtctgccttatcaactttcgatggtaggttacttgcctaccatggttgttacgg
+'D_variabilis'    gacgtttctttcaagtgtctgccttatcaactttcgatggtaggttacttgcttaccatggttgttacgg
+'H_longicornis' gacgtttctttcaagtgtctgccttatcaactttcgatggtaggttacttgcttaccatggttgttacgg
+'I_hexagonus'         gacgtttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgttacgg
+'I_inopinatus'    gacgtttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgttacgg
+'I_pacificus'        gacgtttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgttacgg
+'I_persulcatus'       gacgtttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgttacgg
+'I_ricinus'      gacgtttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgttacgg
+'I_scapularis'         gacgtttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgttacgg
+'O_turicata'         gacgcttctttcaagtgtctgccttatcaactgtcgatggtaggttatgcgcctaccatggttgtcacgg
+'R_sanguineus'           gacgtttctttcaagtgtctgccttatcaactttcgatggtaggttacttgcttaccatggttgttacgg
+
+'A_americanum'           gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'D_variabilis'    gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'H_longicornis' gtaacggagaatcagggttcgatttcggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'I_hexagonus'         gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'I_inopinatus'    gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'I_pacificus'        gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'I_persulcatus'       gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'I_ricinus'      gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'I_scapularis'         gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'O_turicata'         gtaacggagaatcagggttcggttccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+'R_sanguineus'           gtaacggagaatcagggttcgattccggagagggagcctgagaaacggctaccacatccaaggaaggcag
+
+'A_americanum'           caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'D_variabilis'    caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'H_longicornis' caggcgcacaaattacccactcccggcacggggaggtagtcacgaaaaataacaatacgggactcttttg
+'I_hexagonus'         caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'I_inopinatus'    caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'I_pacificus'        caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'I_persulcatus'       caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'I_ricinus'      caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'I_scapularis'         caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'O_turicata'         caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+'R_sanguineus'           caggcgcgcaaattacccactcccggcacggggaggtagtgacgaaaaataacaatacgggactcttttg
+
+'A_americanum'           agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatcaattggagggcaagtctggtg
+'D_variabilis'    agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatcaattggagggcaagtctggtg
+'H_longicornis' aggcccccgtaattgaaatgagtacactctaaatcctttaacgaggatcaattggagggcaagtctggtg
+'I_hexagonus'         agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatccattggagggcaagtctggtg
+'I_inopinatus'    agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatccattggagggcaagtctggtg
+'I_pacificus'        agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatccattggagggcaagtctggtg
+'I_persulcatus'       agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatccattggagggcaagtctggtg
+'I_ricinus'      agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatccattggagggcaagtctggtg
+'I_scapularis'         agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatccattggagggcaagtctggtg
+'O_turicata'         agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatcaattggagggcaagtctggtg
+'R_sanguineus'           agg-ccccgtaattgaaatgagtacactctaaatcctttaacgaggatcaattggagggcaagtctggtg
+
+'A_americanum'           ccagcagccgcggtaattccagctccaatagcgtatactaaagctgctgcggttaaaaagctcgtagttg
+'D_variabilis'    ccagcagccgcggtaattccagctccaatagcgtatactaaagctgctgcggttaaaaagctcgtagttg
+'H_longicornis' ccagcagccgcggtaattccagctccaatagcgtatactaaagctgctgcggttaaaaagctcgtagttg
+'I_hexagonus'         ccagcagccgcggtaattccagctccaatagcgtatactaaagttgctgcggttaaaaagctcgtagttg
+'I_inopinatus'    ccagcagccgcggtaattccagctccaatagcgtatactaaagttgctgcggttaaaaagctcgtagttg
+'I_pacificus'        ccagcagccgcggtaattccagctccaatagcgtatactaaagttgctgcggttaaaaagctcgtagttg
+'I_persulcatus'       ccagcagccgcggtaattccagctccaatagcgtatactaaagttgctgcggttaaaaagctcgtagttg
+'I_ricinus'      ccagcagccgcggtaattccagctccaatagcgtatactaaagttgctgcggttaaaaagctcgtagttg
+'I_scapularis'         ccagcagccgcggtaattccagctccaatagcgtatactaaagttgctgcggttaaaaagctcgtagttg
+'O_turicata'         ccagcagccgcggtaattccagctccaatagcgtatgctaaagctgctgcggttaaaaagctcgtagttg
+'R_sanguineus'           ccagcagccgcggtaattccagctccaatagcgtatactaaagctgctgcggttaaaaagctcgtagttg
+
+'A_americanum'           gatctcagttccagacgagtagtgcatctacccgatgcgacggctcggactgaacatcatgccggtcctc
+'D_variabilis'    gatctcagttccagacgagtagtgcatctacccgatgcgacggctcggactgaacatcatgccggtcctt
+'H_longicornis' gatctcagttccagacgagtagtgcatctacccgatgcgactgctcggactgaacatcatgccggtcgtt
+'I_hexagonus'         gatctcagttgcaggcgggaagtgcgtggacaccacgttacgtcccgtgctggacatcatgcctgtcctg
+'I_inopinatus'    gatctcagttacaggcgggaagtgcgtggacaccacgttacggcccgtgctgaacatcatgcctgtcgtg
+'I_pacificus'        gatctcagttacaggcgggaagtgcgtggacaccacgttacggcccgtgctgaacatcatgcctgtcgtg
+'I_persulcatus'       gatctcagttacaggcgggaagtgcgtggacaccacgttacggcccgtgctgaacatcatgcctgtcgtg
+'I_ricinus'      gatctcagttacaggcgggaagtgcgtggacaccacgttacggcccgtgctgaacatcatgcctgtcgtg
+'I_scapularis'         gatctcagttacaggcgggaagtgcgtggacaccacgttacggcccgtgctgaacatcatgcctgtcgtg
+'O_turicata'         gatctcagttccaggcgggtggtgcatctaaccgatgcgacagcccgggctgaacatcatgccttctatc
+'R_sanguineus'           gatctcagttccagacgagtagtgcatctacccgatgcgacggctcggactgaacatcatgccggttctt
+
+'A_americanum'           tcttggtgcccttcattggtgcgtctcgaggaggcctgcgcttttactttgaaaaaattagagtgctcaa
+'D_variabilis'    tcttggtgcacttcatt-gtgtgcctcgagaaggccggtgcttttactttgaaaaaattagagtgctcaa
+'H_longicornis' tcttggtgcacttcatt-gtgtgcctcgagatggccggtgcttttactttgaaaaaattagagtgctcaa
+'I_hexagonus'         gcttggttcccttcatc-aggtgccttgctatggccggcgcgtttactttgaaaaaattagagtgctcaa
+'I_inopinatus'    gcttggttcccttcatc-aggtgccttgctttgaccggcgcgtttactttgaaaaaattagagtgctcaa
+'I_pacificus'        gcttggttcccttcatc-aggtgccttgctttgaccggcgcgtttactttgaaaaaattagagtgctcaa
+'I_persulcatus'       gcttggttcccttcatc-aggtgccttgccttggccggcgcgtttactttgaaaaaattagagtgctcaa
+'I_ricinus'      gcttggttcccttcatc-aggtgccttgctttgaccggcgcgtttactttgaaaaaattagagtgctcaa
+'I_scapularis'         gcttggttcccttcatc-aggtgccttgctttggccggcgcgtttactttgaaaaaattagagtgctcaa
+'O_turicata'         ctctggtgtccttcact-ggatgcctttgggtggtcggtgcatttactttgaaaaaattggagtgctcaa
+'R_sanguineus'           tcttggtgcacttcatt-gtgtgcctcgagatggccggtgcttttactttgaaaaaattagagtgctcaa
+
+'A_americanum'           cgcaggcgagtcgcctgaata-aacttgcatggaataatagaacaagaccccgtttctgttctgttggtt
+'D_variabilis'    cgcaggcgagtcgcctgaata-aacttgcatggaataatagaacaagacctcgtttctgttctgttggtt
+'H_longicornis' cgcaggcgagtcgcctgaatattccttgcatggaataatagaacaagacctcgtttctgttctcttggtt
+'I_hexagonus'         cgcaggcgattcgcctgaata-acagtgcatggaataatagaacaagatcctgtttctgttctgttggtt
+'I_inopinatus'    cgcaggcgattcgcctgaata-acagtgcatggaataatagaacaagatcctgtttctgttctgttggtt
+'I_pacificus'        cgcaggcgattcgcctgaata-acagtgcatggaataatagaacaagatcctgtttctgttctgttggtt
+'I_persulcatus'       cgcaggcgattcgcctgaata-acagtgcatggaataatagaacaagatcctgtttctgttctgttggtt
+'I_ricinus'      cgcaggcgattcgcctgaata-acagtgcatggaataatagaacaagatcctgtttctgttctgttggtt
+'I_scapularis'         cgcaggcgattcgcctgaata-acagtgcatggaataatagaacaagatcctgtttctgttctgttggtt
+'O_turicata'         cgcaggcgcattgcctgaaca-cttacgcatggaataatagaacaagaccccgtttctgttctgttggtt
+'R_sanguineus'           cgcaggcgagtcgcctgaata-aacttgcatggaataatagaacaagacctcgtttctgttctgttggtt
+
+'A_americanum'           tttggaatacggggtaatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'D_variabilis'    tttggaatacgaggtaatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'H_longicornis' tttggaatacgaggtaatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'I_hexagonus'         tttggaatacaggataatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'I_inopinatus'    tttggaatacaggataatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'I_pacificus'        tttggaatacaggataatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'I_persulcatus'       tttggaatacaggataatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'I_ricinus'      tttggaatacaggataatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'I_scapularis'         tttggaatacaggataatgattaagagggacagacgggggcattcgtattgcggcgctagaggtgaaatt
+'O_turicata'         tttggaaaacgaggtaatgatcaagagggacggacgggggcattcgtattgcggcgctagaggtgaaatt
+'R_sanguineus'           tttggaatacgaggtaatgattaagagggacggacgggggcattcgtattgcggcgctagaggtgaaatt
+
+'A_americanum'           cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttctttgatcaagaacgaaa
+'D_variabilis'    cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttctttgatcaagaacgaaa
+'H_longicornis' cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttctttgatcaagaacgaaa
+'I_hexagonus'         cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttctttgatcaagaacgaaa
+'I_inopinatus'    cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttcattgatcaagaacgaaa
+'I_pacificus'        cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttcattgatcaagaacgaaa
+'I_persulcatus'       cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttcattgatcaagaacgaaa
+'I_ricinus'      cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttcattgatcaagaacgaaa
+'I_scapularis'         cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttcattgatcaagaacgaaa
+'O_turicata'         cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttcattgatcaagaacgaaa
+'R_sanguineus'           cttggaccgtcgcaagacgaactactgcgaaagcatttgccaagaatgttttctttgatcaagaacgaaa
+
+'A_americanum'           gtcagaggttcgaaggcgatcagataccgccctagttctgaccataaacgatgcca----accagcgatc
+'D_variabilis'    gtcagaggttcgaaggcgatcagataccgccctagttctgaccataaacgatgcca----accagcgatc
+'H_longicornis' gttagaggttcgaaggcgatcagataccgccctaattctaaccataaacgatgccaacccacccgcgatc
+'I_hexagonus'         gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcgatc
+'I_inopinatus'    gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcgatc
+'I_pacificus'        gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcgatc
+'I_persulcatus'       gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcgatc
+'I_ricinus'      gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcgatc
+'I_scapularis'         gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcgatc
+'O_turicata'         gttagaggttcgaaggcgatcagataccgccctagttctaaccataaacgatgcca----accagcaatc
+'R_sanguineus'           gtcagaggttcgaaggcgatcagataccgccctagttctgaccataaacgatgcca----accagcgatc
+
+'A_americanum'           cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'D_variabilis'    cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtgtttgggttccgggggaagt
+'H_longicornis' cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccaggggaagt
+'I_hexagonus'         cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'I_inopinatus'    cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'I_pacificus'        cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'I_persulcatus'       cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'I_ricinus'      cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'I_scapularis'         cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'O_turicata'         cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+'R_sanguineus'           cgcctgagttactcaaatgactcggcgggcagcttccgggaaaccaaagtatttgggttccgggggaagt
+
+'A_americanum'           atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'D_variabilis'    atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'H_longicornis' atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'I_hexagonus'         atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'I_inopinatus'    atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'I_pacificus'        atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'I_persulcatus'       atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'I_ricinus'      atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'I_scapularis'         atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'O_turicata'         atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+'R_sanguineus'           atggttgcaaagctgaaacttaaaggaattgacggaagggcaccaccaggagtggagcctgcggcttaat
+
+'A_americanum'           ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'D_variabilis'    ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'H_longicornis' ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctgtttcttg
+'I_hexagonus'         ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'I_inopinatus'    ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'I_pacificus'        ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'I_persulcatus'       ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'I_ricinus'      ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'I_scapularis'         ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'O_turicata'         ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+'R_sanguineus'           ttgactcaacacgggaaaacttacccggcccggacactgggaggattgacagattgagagctctttcttg
+
+'A_americanum'           attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'D_variabilis'    attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'H_longicornis' attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'I_hexagonus'         attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'I_inopinatus'    attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'I_pacificus'        attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'I_persulcatus'       attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'I_ricinus'      attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'I_scapularis'         attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'O_turicata'         attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+'R_sanguineus'           attcggtggatggtggtgcatggccgttcttagttggtggagcgatttgtctggttaattccgataacga
+
+'A_americanum'           acgagactctagcctattaaataggtgcggggttcccagcaccttacaaccttcttagagggacaagcgg
+'D_variabilis'    acgagactctagcctattaaataggtgcggggttcccagcaccttacaaccttcttagagggacaagcgg
+'H_longicornis' acgagactctagcctattaaataggtgcggggttcccagcaccttacaaccttcttagagggacaagcgg
+'I_hexagonus'         acgagactctagcctattaaataggtgcgtggttctctgcaccttgcacccttcttagagggacaagcgg
+'I_inopinatus'    acgagactctagcctattaaataggtgcgtggttctctgcaccttgcacccttcttagagggacaagcgg
+'I_pacificus'        acgagactctagcctattaaataggtgcgtggttctctgcaccttgcacccttcttagagggacaagcgg
+'I_persulcatus'       acgagactctagcctattaaataggtgcgtggttctctgcaccttgcacccttcttagagggacaagcgg
+'I_ricinus'      acgagactctagcctattaaataggtgcgtggttctctgcaccttgcacccttcttagagggacaagcgg
+'I_scapularis'         acgagactctagcctattaaataggtgcgtggttctctgcaccttgcacccttcttagagggacaagcgg
+'O_turicata'         acgagactccagcctactaaataggtgcgaggttctctgcatcttgcacccttcttagagggacaagcgg
+'R_sanguineus'           acgagactctagcctattaaataggtgcggggttcccagcaccttacaaccttcttagagggacaagcgg
+
+'A_americanum'           ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'D_variabilis'    ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'H_longicornis' ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'I_hexagonus'         ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'I_inopinatus'    ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'I_pacificus'        ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'I_persulcatus'       ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'I_ricinus'      ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'I_scapularis'         ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'O_turicata'         ctcctagccgcacgaaacggagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+'R_sanguineus'           ctcctagccgcacgaaacagagcaataacaggtctgtgatgcccttagatgtccggggccgcacgcgcgc
+
+'A_americanum'           tacactgaaggaagcagcgtgtctttatccctgtctgaaaagactgggtaacccgtggaacttccttcgt
+'D_variabilis'    tacactgaaggaagcagcgtgtctttatccctgtctgaaaagactgggtaacccgtggaacttctttcgt
+'H_longicornis' tacactgaaggaggcagcgtgtttt--tccctgtctgaaaagactgggtaacccgtggaacttccttcgt
+'I_hexagonus'         tacactgaaggaagcagcgtgtttttatccctgtctgtaaagactgggtaacccgtggaacctccttcgt
+'I_inopinatus'    tacactgaaggaagcagcgtgtttttatccctgtctgtaaagactgggtaacccgtggaacctccttcgt
+'I_pacificus'        tacactgaaggaagcagcgtgtttttatccctgtctgtaaagactgggtaacccgtggaacctccttcgt
+'I_persulcatus'       tacactgaaggaagcagcgtgtttttatccctgtctgtaaagactgggtaacccgtggaacctccttcgt
+'I_ricinus'      tacactgaaggaagcagcgtgtttttatccctgtctgtaaagactgggtaacccgtggaacctccttcgt
+'I_scapularis'         tacactgaaggaagcagcgtgtttttatccctgtctgtaaagactgggtaacccgtggaacctccttcgt
+'O_turicata'         tacactgaagaaagcagcgtgtgttt-tccctgcctgaaaagactgggtaacccaatgaaccttcttcgt
+'R_sanguineus'           tacactgaaggaagcagcgtgtctttatccctgtctgaaaagactgggtaacccgtggaacttctttcgt
+
+'A_americanum'           gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'D_variabilis'    gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'H_longicornis' gattgggataggggcttgcaattgttccccttgaacgaggaattcccggtaagcgcgagtcataagctcg
+'I_hexagonus'         gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'I_inopinatus'    gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'I_pacificus'        gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'I_persulcatus'       gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'I_ricinus'      gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'I_scapularis'         gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'O_turicata'         gattgggataggggattgcaattattccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+'R_sanguineus'           gattgggataggggcttgcaattgttccccttgaacgaggaattcccagtaagcgcgagtcataagctcg
+
+'A_americanum'           cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'D_variabilis'    cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'H_longicornis' cgttgattacgtctctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'I_hexagonus'         cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'I_inopinatus'    cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'I_pacificus'        cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'I_persulcatus'       cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'I_ricinus'      cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'I_scapularis'         cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+'O_turicata'         cgctgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattggatgatttagtgaggtc
+'R_sanguineus'           cgttgattacgtccctgccctttgtacacaccgcccgtcgctactaccgattgaatgatttagtgaggtc
+
+'A_americanum'           ttcggaccgatgtccggcgcggcctttcggttgcgccggtctgttggaaagatgaccaaacttgatcatt
+'D_variabilis'    ttcggaccgatgtccggcgcggcctttcggttgcgccggtctgttggaaagatgaccaaacttgatcatt
+'H_longicornis' ttcggaccgatgtccggcgcggcctttcggttgcgccggtctgttggaaagatgaccaaacttgatcatt
+'I_hexagonus'         ttcggaccgatacccggagcggcctttcggttgcgccggtgtgttggaaagatgaccaaacttgatcatt
+'I_inopinatus'    ttcggaccgatacccggagcggcctttcggttgcgccggtgtgttggaaagatgaccaaacttgatcatt
+'I_pacificus'        ttcggaccgatacccggagcggcctttcggttgcgccggtgtgttggaaagatgaccaaacttgatcatt
+'I_persulcatus'       ttcggaccgatacccggagcggcctttcggttgcgccggtgtgttggaaagatgaccaaacttgatcatt
+'I_ricinus'      ttcggaccgatacccggagcggcctttcggttgcgccggtgtgttggaaagatgaccaaacttgatcatt
+'I_scapularis'         ttcggaccgatacccggagcggcctttcggttgcgccggtgtgttggaaagatgaccaaacttgatcatt
+'O_turicata'         ttcggatcgatacccgtagcgaccgttcggccgcgccggagtgttgagaagatgaccgaacttgatcatt
+'R_sanguineus'           ttcggaccgatgtccggcgcggcctttcggttgcgccggtctgttggaaagatgaccaaacttgatcatt
+
+'A_americanum'           tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'D_variabilis'    tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'H_longicornis' tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'I_hexagonus'         tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'I_inopinatus'    tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'I_pacificus'        tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'I_persulcatus'       tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'I_ricinus'      tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'I_scapularis'         tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+'O_turicata'         tagaggaagtaaaagtcgtaacaagttttccgtaggtgaacctgcgga
+'R_sanguineus'           tagaggaagtaaaagtcgtaacaaggtttccgtaggtgaacctgcgga
+
+;
+end;

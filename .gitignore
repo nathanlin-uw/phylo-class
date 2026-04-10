@@ -1,6 +1,7 @@
 raw_data/*
 blast/*
 results/*
+mrbayes/*
 
 !README.md
 
