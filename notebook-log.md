@@ -217,3 +217,11 @@ This analysis got all of the relationships right for 28S!
 
 ### The coalescent with ASTRAL4 ###
 I chose to use ASTRAL4 rather than network methods because it is faster and less computationally-intensive, but this would run into issues if gene flow is very prevalent between these species.
+
+ASTRAL takes a .tre file containing the set of compiled gene trees as an input, so I grabbed the RAxML gene tree results and put them into such a file with the R script `4_compile_RAxML_gene_trees.R`. The script puts the gene trees in `results/all_gene_trees.tre`.
+
+To run ASTRAL4, in the `results/` folder, I ran the command `astral4 -i ./all_gene_trees.tre -o ./species_tree_astral4.tre`.
+
+It completed in a heartbeat because I only had 4 genes haha. This will change when I use BUSCO genes. 
+
+To visualize the species tree, I used the default base plot in R but I will make everything in ggtree for the final report.
