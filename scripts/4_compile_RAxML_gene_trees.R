@@ -2,7 +2,7 @@ library(ape)
 library(phangorn)
 
 # Set working directory to RAxML outputs folder
-# setwd("//wsl.localhost/Ubuntu/home/ntlin/phylo-class/results/raxml")
+# setwd("//wsl.localhost/Ubuntu/home/ntlin/phylo-class/results/renamed_aligns_raxml")
 
 # List the best tree files from RAxML, the $ means it's the end of the string
 gene_tree_files <- list.files(pattern="\\.raxml.bestTree$") 
