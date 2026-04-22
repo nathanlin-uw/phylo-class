@@ -43,6 +43,7 @@ Installing BUSCO:
 conda create -n busco_env -c conda-forge -c bioconda busco=6.0.0 sepp=4.5.5
 conda activate busco_env
 ```
+The version of BUSCO I used, 6.0.0, depends on `sepp` version 4.5.5, `hmmsearch` version 3.4, `bbtools` version 38.90, `miniprot_index` version 0.18-r281, and `miniprot_align` version 0.18-r281.
 
 To see what datasets are available:
 `busco --list-datasets`
@@ -59,8 +60,22 @@ anaconda3/envs/busco_env/lib/python3.12/multiprocessing/resource_tracker.py:279:
 Apparently this means that BUSCO was abnormally stopped due to insufficient memory. I had to do wsl --shutdown in the PowerShell since I was getting a WSL Catastrophic Error with Ubuntu crashing.
 I had tried running it with fewer cores and everything but I think the fact that these genomes are so large makes BUSCO exceed the 12 gigabyte RAM I have to work with.
 
-In any case these are published assemblies and for the non-Ixodes taxa I had picked the ones with a public >89% BUSCO score on NCBI.
-BUSCO scores were not published for many of the Ixodes species, though.
+UPDATE (way later in April lol): I got BUSCO going on my lab's workstation since it has a lot more computational capability than my laptop. I copied the raw genome sequences from my laptop over to the workstation with `scp`, then installed BUSCO's version 6.0.0 with conda, and it was off to the races.
+
+To run BUSCO on each genome fasta in the `raw_data/` folder, I used the following command:
+`for taxon in "a_americanum" "d_variabilis" "h_longicornis" "i_hexagonus" "i_inopinatus" "i_pacificus" "i_persulcatus" "i_ricinus" "i_scapularis" "o_turicata" "r_sanguineus"; do busco -i "${taxon}.fna" -l acari -m genome -c 20 -o "../busco_${taxon}_acari"; done`
+This runs BUSCO on every genome assembly and makes a new output folder for each. I could also have used `for file in *.fna` with `"${file:0:-4}"` to take out the .fna later on.
+
+From here, I gathered the summary statistics files for each run with the command `mkdir busco_0_summaries; for dirname in busco_*_acari; do cp "${dirname}/short_summary.specific.acari_odb12.${dirname}.txt" "busco_0_summaries/${dirname}.txt"; done`.
+
+Completeness scores with the acari_odb12 lineage were as follows: A. americanum (97.6%), D. variabilis (99.8%), H. longicornis (98.4%), I. hexagonus (88.5%), I. inopinatus (96.8%), I. pacificus (89.1%), I. persulcatus (82.6%), I. ricinus (92.1%), I. scapularis (99.2%), O. turicata (98.0%), and R. sanguineus (97.3%). Ixodes inopinatus had only 441 complete single copy genes, oddly, while the other taxa all had greater than 1500, so I may have to remove it for some parts of the analysis. The number of scaffolds of each assembly varied greatly, from under 1000 in A. americanum/D. variabilis/H. longicornis/I. scapularis/O. turicata, to 2300 in R. sanguineus, 25000 in Ixodes ricinus, and over 90000 in I. hexagonus/I. inopinatus/I. pacificus/I. persulcatus.
+
+After the summary statistics, I used these commands to pull out all of the single copy BUSCO genes and compile them: 
+1. Set up file system (in `nathan_ticks_phylo`, makes one new folder with a subfolder for each species inside): `mkdir busco_1_single_copy_genes; for dirname in busco_*_acari; do mkdir "busco_1_single_copy_genes/${dirname:6:-6}"; done`
+2. Copy .gff files into respective species folders (in `nathan_ticks_phylo`, takes ~30 seconds): `for dirname in busco_*_acari; do for gff_file in ${dirname}/run_acari_odb12/busco_sequences/single_copy_busco_sequences/*.gff; do cp "${gff_file}" "./busco_1_single_copy_genes/${dirname:6:-6}/"; done; done`
+3. Convert .gff to .fna with gffread (in `busco_1_single_copy_genes/`, first conda install gffread, this step will take ~100 minutes if we have ~18,000 items to get through and we convert ~3 files per second): `for species in *; do for gff_file in $species/*.gff; do gffread ${gff_file -g "../raw_data/${species}.fna" -w "${gff_file:0:-4}.fna"; done; done`
+4. Relabel fasta headers and preliminary merging to get one per gene
+
 
 ### Simplifying my data ###
 The genomes are a bit too large, so I am just going to try the ITS2, ITS1, 18S, and 28S nuclear genes for this project.
@@ -198,3 +213,7 @@ Parameter selections: we are using the HKY model with gamma-distributed rate het
 I ran MrBayes (in `mrbayes/`) using the command `mb 28s_mafft_align_mb.nex`. 
 
 This analysis got all of the relationships right for 28S! 
+
+
+### The coalescent with ASTRAL4 ###
+I chose to use ASTRAL4 rather than network methods because it is faster and less computationally-intensive, but this would run into issues if gene flow is very prevalent between these species.
