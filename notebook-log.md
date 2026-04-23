@@ -74,7 +74,10 @@ After the summary statistics, I used these commands to pull out all of the singl
 1. Set up file system (in `nathan_ticks_phylo`, makes one new folder with a subfolder for each species inside): `mkdir busco_1_single_copy_genes; for dirname in busco_*_acari; do mkdir "busco_1_single_copy_genes/${dirname:6:-6}"; done`
 2. Copy .gff files into respective species folders (in `nathan_ticks_phylo`, takes ~30 seconds): `for dirname in busco_*_acari; do for gff_file in ${dirname}/run_acari_odb12/busco_sequences/single_copy_busco_sequences/*.gff; do cp "${gff_file}" "./busco_1_single_copy_genes/${dirname:6:-6}/"; done; done`
 3. Convert .gff to .fna with gffread (in `busco_1_single_copy_genes/`, first conda install gffread, this step will take ~100 minutes if we have ~18,000 items to get through and we convert ~3 files per second): `for species in *; do for gff_file in $species/*.gff; do gffread ${gff_file -g "../raw_data/${species}.fna" -w "${gff_file:0:-4}.fna"; done; done`
-4. Relabel fasta headers and preliminary merging to get one per gene
+4. Relabel fasta headers of each gene to the species name (each "104at6933"-esque file is a different gene, look them up in the `acari_odb12` lineage download in https://busco-data.ezlab.org/v5/data/lineages/): (in `busco_1_single_copy_genes/`, we are going to relabel the fasta header of each "104at6933.fna" file with just the species name and keep the file names the same) `for species in *; do for fna_file in $species/*.fna; do sed -i "1s/.*/>${species}/" $fna_file; done; done`
+5. Merging to make combined fastas for each gene (in `busco_1_single_copy_genes`, in a new directory it makes new files for each gene and appends each species' sequence into those files): `mkdir busco_2_merged_fnas; for species in *; do for fna_file in $species/*.fna; do cat $fna_file >> "../busco_2_merged_fnas/${fna_file##*/}"; done; done`
+
+The end results of this are now found in the workstation's `nathan_ticks_phylo/busco_2_merged_fnas` directory. I moved it over to my laptop for the phylogenetics work using `scp -r [source] [destination]` and placed everything into a new phylo-class directory `0_busco_sc_genes_merged_fnas/`.
 
 
 ### Simplifying my data ###
