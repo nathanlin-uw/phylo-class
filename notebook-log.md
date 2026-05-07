@@ -1,5 +1,7 @@
 This is the notebook log for my Spring 2026 phylogenetics class tick genomes phylogeny project.
 
+## NOTE: My repository is more or less split into two sections -- the first is the files and folders with the number at the start (eg. 0_busco_sc_genes_merged_fnas/), and that reflects the BUSCO genes dataset work. The second is the set of folders including alignments/, blast/, distance_parsimony/, mrbayes/, raw_data/, and results/, and this reflects the individual locus work and class homework. The scripts/ folder contains scripts used for both datasets.
+
 ### Introduction and taxon selection ###
 I will be using the publicly-available genomes of 11 tick species from the National Center of Biotechnology Information database, focusing on the genus Ixodes. Specifically, I will use the arachnid lineage BUSCO genes to construct the phylogeny.
 
