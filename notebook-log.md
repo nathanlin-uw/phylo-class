@@ -33,9 +33,9 @@ conda install -c conda-forge ncbi_datasets-cli
 In the data/ folder:
 `datasets download genome accession [assembly_ID] --include genome`
 
-I unzipped the zip folders and just kept the .fna genome sequences files.
+I unzipped the zip folders and just kept the .fna genome sequences files in a folder called `raw_data/`, with file names being species names such as a_americanum.fna and d_variabilis.fna.
 
-### Quality control ###
+### Quality control initial lack of success ###
 I had wanted to use BUSCO (Benchmarking Universal Single-Copy Orthologs) to evaluate the completeness of each genome. 
 
 Installing BUSCO:
@@ -60,26 +60,8 @@ anaconda3/envs/busco_env/lib/python3.12/multiprocessing/resource_tracker.py:279:
 Apparently this means that BUSCO was abnormally stopped due to insufficient memory. I had to do wsl --shutdown in the PowerShell since I was getting a WSL Catastrophic Error with Ubuntu crashing.
 I had tried running it with fewer cores and everything but I think the fact that these genomes are so large makes BUSCO exceed the 12 gigabyte RAM I have to work with.
 
-UPDATE (way later in April lol): I got BUSCO going on my lab's workstation since it has a lot more computational capability than my laptop. I copied the raw genome sequences from my laptop over to the workstation with `scp`, then installed BUSCO's version 6.0.0 with conda, and it was off to the races.
-
-To run BUSCO on each genome fasta in the `raw_data/` folder, I used the following command:
-`for taxon in "a_americanum" "d_variabilis" "h_longicornis" "i_hexagonus" "i_inopinatus" "i_pacificus" "i_persulcatus" "i_ricinus" "i_scapularis" "o_turicata" "r_sanguineus"; do busco -i "${taxon}.fna" -l acari -m genome -c 20 -o "../busco_${taxon}_acari"; done`
-This runs BUSCO on every genome assembly and makes a new output folder for each. I could also have used `for file in *.fna` with `"${file:0:-4}"` to take out the .fna later on.
-
-From here, I gathered the summary statistics files for each run with the command `mkdir busco_0_summaries; for dirname in busco_*_acari; do cp "${dirname}/short_summary.specific.acari_odb12.${dirname}.txt" "busco_0_summaries/${dirname}.txt"; done`.
-
-Completeness scores with the acari_odb12 lineage were as follows: A. americanum (97.6%), D. variabilis (99.8%), H. longicornis (98.4%), I. hexagonus (88.5%), I. inopinatus (96.8%), I. pacificus (89.1%), I. persulcatus (82.6%), I. ricinus (92.1%), I. scapularis (99.2%), O. turicata (98.0%), and R. sanguineus (97.3%). Ixodes inopinatus had only 441 complete single copy genes, oddly, while the other taxa all had greater than 1500, so I may have to remove it for some parts of the analysis. The number of scaffolds of each assembly varied greatly, from under 1000 in A. americanum/D. variabilis/H. longicornis/I. scapularis/O. turicata, to 2300 in R. sanguineus, 25000 in Ixodes ricinus, and over 90000 in I. hexagonus/I. inopinatus/I. pacificus/I. persulcatus.
-
-After the summary statistics, I used these commands to pull out all of the single copy BUSCO genes and compile them: 
-1. Set up file system (in `nathan_ticks_phylo`, makes one new folder with a subfolder for each species inside): `mkdir busco_1_single_copy_genes; for dirname in busco_*_acari; do mkdir "busco_1_single_copy_genes/${dirname:6:-6}"; done`
-2. Copy .gff files into respective species folders (in `nathan_ticks_phylo`, takes ~30 seconds): `for dirname in busco_*_acari; do for gff_file in ${dirname}/run_acari_odb12/busco_sequences/single_copy_busco_sequences/*.gff; do cp "${gff_file}" "./busco_1_single_copy_genes/${dirname:6:-6}/"; done; done`
-3. Convert .gff to .fna with gffread (in `busco_1_single_copy_genes/`, first conda install gffread, this step will take ~100 minutes if we have ~18,000 items to get through and we convert ~3 files per second): `for species in *; do for gff_file in $species/*.gff; do gffread ${gff_file -g "../raw_data/${species}.fna" -w "${gff_file:0:-4}.fna"; done; done`
-4. Relabel fasta headers of each gene to the species name (each "104at6933"-esque file is a different gene, look them up in the `acari_odb12` lineage download in https://busco-data.ezlab.org/v5/data/lineages/): (in `busco_1_single_copy_genes/`, we are going to relabel the fasta header of each "104at6933.fna" file with just the species name and keep the file names the same) `for species in *; do for fna_file in $species/*.fna; do sed -i "1s/.*/>${species}/" $fna_file; done; done`
-5. Merging to make combined fastas for each gene (in `busco_1_single_copy_genes`, in a new directory it makes new files for each gene and appends each species' sequence into those files): `mkdir busco_2_merged_fnas; for species in *; do for fna_file in $species/*.fna; do cat $fna_file >> "../busco_2_merged_fnas/${fna_file##*/}"; done; done`
-
-The end results of this are now found in the workstation's `nathan_ticks_phylo/busco_2_merged_fnas` directory. I moved it over to my laptop for the phylogenetics work using `scp -r [source] [destination]` and placed everything into a new phylo-class directory `0_busco_sc_genes_merged_fnas/`.
-
-
+# The following section describes my workflow for the individual loci #
+## This is in line with the class homework progression, but I add another dataset afterwards
 ### Simplifying my data ###
 The genomes are a bit too large, so I am just going to try the ITS2, ITS1, 18S, and 28S nuclear genes for this project.
 - For background on marker selection I read Cruickshank 2002 (https://doi.org/10.11158/saa.7.1.1)
@@ -146,6 +128,8 @@ I will be aligning the 28s sequences first.
 
 I am using MAFFT, which uses the Fast Fourier Transform approach to infer homologous regions between sequences to reduce comparisons and time needed for sequence alignment. It assumes at the very least that the input sequences are homologous.
 
+I installed MAFFT version 7.525 using Conda version 25.11.1 (`conda install mafft`).
+
 I ran MAFFT with the \*G-INS-i accuracy-oriented, iterative refinement method incorporating global pairwise alignment because I had fewer than 200 sequences (only 11). I chose \*G-INS-i instead of \*L-INS-i or \*E-INS-i because the sequences were of similar length and did not contain large unalignable regions. By default, the local pairwise alignment gap opening penalty was -2.00, the local pairwise alignment offset value was 0.1, and the local pairwise alignment gap extension penalty was -0.1. 
 
 (In the alignments/ folder, with the alignments_env conda environment containing MAFFT active)
@@ -167,12 +151,12 @@ Tree making: I used the `nj` function to create the neighbor-joining tree and th
 I made the trees for each gene individually first (I will combine them later). Neither tree worked for ITS1 because there was too much missing data across the sequences. For both the 18S and 28S genes, both the neighbor joining and maximum parsimony trees wrongly treated Ixodes as an outgroup, with Ornithodoros the most ancestral taxon of a clade with all of the other genera. Ixodes was monophyletic in the neighbor joining trees but paraphyletic in the parsimony trees. For the ITS2 distance tree, I. hexagonus was not part of the outgroup, while it appeared as an outgroup in the maximum parsimony tree.
 
 ### Maximum Likelihood for Gene Trees ###
-I used RAxML-NG version 2.0.0 and IQ-TREE version 3 to make maximum-likelihood trees for each gene.
+I used RAxML-NG version 2.0.0 and IQ-TREE version 3 to make maximum-likelihood trees for each gene. I installed RAxML through the Linux binary at https://github.com/amkozlov/raxml-ng/releases/download/1.2.2/raxml-ng_v1.2.2_linux_x86_64.zip -- I moved it to a folder in the computer's PATH, unzipped it, and moved raxml-ng into the folder. After that, I used `sudo chmod +x raxml-ng` to make it an executable, and that lets me use the command `raxml-ng`. I installed IQ-TREE version 3.1.1 using Conda version 25.11.1 (`conda install -c bioconda iqtree`). 
 
 To set this up, I made a results directory and the directories "iqtree" and "raxml" inside. I also had to remove the colons from my fasta files because they interfere with RAxML. To do this I did the following in the alignments\ folder: `for file in *.fna; do sed -i "s/://g" $file; done`
 
 (In the alignments folder)
-To run RAxML, I did `raxml-ng --msa its2_mafft_align.fna --model auto --data-type DNA` for each alignment.
+To run RAxML, I did `raxml-ng --all --msa its2_mafft_align.fna --bs-trees 1000 --model auto --data-type DNA` for each alignment.
 After the runs, I moved the files to the `results/` folder with `for file in *.raxml.*; do mv $file ../results/raxml; done`.
 To run IQ-TREE, I did `iqtree3 -s 18s_mafft_align.fna` for each alignment.
 After the runs, I moved the files to the `results/` folder with `for file in *.fna.*; do mv $file ../results/iqtree; done`.
@@ -184,7 +168,7 @@ RAxML and IQ-TREE both now have automatic model selection (according to Bayesian
 - For ITS2, RAxML selected the HKY+F0+G4m model, and IQ-TREE selected the HKY+F+G4 model (also a synonym). This model has only two parameters for transition and transversion rates, with unequal nucleotide "stationary frequencies" and gamma-distributed rate heterogeneity among different sites.  
 
 ### Bayesian Inference with MrBayes ###
-I used MrBayes version 3.2.7a to make Bayesian Inference trees for each gene.
+I used MrBayes version 3.2.7a to make Bayesian Inference trees for the 28S gene. I installed MrBayes by installing Homebrew on WSL, adding it to my path, then doing `brew reinstall -s mrbayes` and `brew reinstall -s beagle`.
 
 First, I had to convert my alignment files from .fna to .nex (nexus format). I navigated to the alignments/ folder, then ran this code: `for file in *.fna; do seqmagick convert "$file" "${file: 0:-4}.nex" --alphabet dna; done`. To make this work, I first activated the base conda environment for Python access, and used pip to install seqmagick (`pip install seqmagick`). The {file:0:-4} means we cut off the last four spaces of the name (.fna) to be replaced with .nex, and the `--alphabet dna` bit is necessary for nexus output. After running that line, I end up with a set of `[gene]_mafft_align.nex` files to go along with each `[gene]_mafft_align.fna` original file.
 
@@ -211,7 +195,7 @@ I added this block to the nexus files with this command (in `alignments/`): `for
 Prior selections: branch lengths with exponential distribution having mean of 0.1 substitutions per site means we can have mostly short but possibly long branches, gamma shape parameter for rate variation between sites with exponential distribution having mean of 1 means we are assuming moderate rate heterogeneity and not going too extreme, we are picking uniform and uninformative priors for transition/transversion ratio and nucleotide frequencies/bias
 
 Used the manual here: `https://github.com/NBISweden/MrBayes/blob/develop/doc/manual/Manual_MrBayes_v3.2.pdf`
-Parameter selections: we are using the HKY model with gamma-distributed rate heterogeneity across sites and four rate categories for approximation; for MCMC we are doing default 4 chains (3 heated 1 cold), number of runs is 2 by default, print and sample frequency we can do default 1000 and 500 since we have more generations (though we can increase the frequency for more resolution later), no burn-in specification needed (the first 25% of samples from the cold chain are discarded by default).
+Parameter selections: we are using the HKY model with gamma-distributed rate heterogeneity across sites and four rate categories for approximation; for MCMC we are doing 10 million generations, default 4 chains (3 heated 1 cold), number of runs is 2 by default, print and sample frequency we can do default 1000 and 500 since we have more generations (though we can increase the frequency for more resolution later), no burn-in specification needed (the first 25% of samples from the cold chain are discarded by default).
 
 I ran MrBayes (in `mrbayes/`) using the command `mb 28s_mafft_align_mb.nex`. 
 
@@ -221,6 +205,8 @@ This analysis got all of the relationships right for 28S!
 ### The coalescent with ASTRAL4 ###
 I chose to use ASTRAL4 rather than network methods because it is faster and less computationally-intensive, but this would run into issues if gene flow is very prevalent between these species.
 
+I installed ASTRAL-IV version 1.24.4.8 from the Linux binary at https://github.com/chaoszhang/ASTER. I copied everything from the zip file into a folder in the PATH, and did `sudo chmod +x astral4` to make it an executable. That lets me use the command `astral4`.
+
 ASTRAL takes a .tre file containing the set of compiled gene trees as an input, so I grabbed the RAxML gene tree results and put them into such a file with the R script `4_compile_RAxML_gene_trees.R`. The script puts the gene trees in `results/all_gene_trees.tre`.
 
 To run ASTRAL4, in the `results/` folder, I ran the command `astral4 -i ./all_gene_trees.tre -o ./species_tree_astral4.tre`.
@@ -229,6 +215,69 @@ It completed in a heartbeat because I only had 4 genes haha. This will change wh
 
 To visualize the species tree, I used the default base plot in R but I will make everything in ggtree for the final report. It originally came out with really weird tip labels (contig numbers) so I renamed everything in the original alignment so it would be consistent just species names across the genes. To do that, I made a new directory in `alignments/` called `renamed_alignments/`, then copied the .fna files in `alignments/` over with `cp *.fna renamed_alignments`, and ran `while IFS=$'\t' read -r seqrange sp; do for file in ./renamed_alignments/*.fna; do sed -i "s/${seqrange}/${sp}/g" "$file"; done; done < seqrange_sp_mapping.tsv` to change the contig numbers to species names.
 
-After this, I ran raxml again on everything in `renamed_alignments/` a-la `raxml-ng --msa its2_mafft_align.fna --model auto --data-type DNA`, moved the results to a new subdirectory of `results/` called `renamed_aligns_raxml` using the command `for file in *.raxml.*; do mv $file ../../results/renamed_aligns_raxml; done`, ran the R script `4_compile_RAxML_gene_trees.R` on the new alignments (overwriting the previous combined gene trees file), and ran ASTRAL4 again with the same command, `astral4 -i ./all_gene_trees.tre -o ./species_tree_astral4.tre`. When visualizing with R, I used the ape package's read.tree and root functions, with `species_tree <- read.tree("species_tree_astral4.tre")`, `sp_tree_rooted = root(species_tree, outgroup="O_turicata", resolve.root=TRUE)`, and finally the base R plot function. 
+After this, I ran raxml again on everything in `renamed_alignments/` a-la `raxml-ng --all --msa its2_mafft_align.fna --bs-trees 1000 --model auto --data-type DNA`, moved the results to a new subdirectory of `results/` called `renamed_aligns_raxml` using the command `for file in *.raxml.*; do mv $file ../../results/renamed_aligns_raxml; done`, ran the R script `4_compile_RAxML_gene_trees.R` on the new alignments (overwriting the previous combined gene trees file), and ran ASTRAL4 again with the same command, `astral4 -i ./all_gene_trees.tre -o ./species_tree_astral4.tre`. When visualizing with R, I used the ape package's read.tree and root functions, with `species_tree <- read.tree("species_tree_astral4.tre")`, `sp_tree_rooted = root(species_tree, outgroup="O_turicata", resolve.root=TRUE)`, and finally the base R plot function. 
+
+Interestingly, when running RAxML again on the renamed alignments, the best model for 28S was changed to TN93+F0+R2, while the best models for 18S and ITS2 stayed as HKY+FE+I and HKY+F0+G4m, respectively.
 
 The branch lengths here were very problematic, with Ixodes hexagonus coming out far away from the rest of the Ixodes. Dermacentor and Amblyomma came out as sister taxa again, and it seems like there is major polytomy for the relationships between Ixodes hexagonus and the non-Ixodes taxa, even the outgroup O_turicata. I think there's just a lot of missing data here making the branch lengths and lack of resolution an issue.
+
+
+# From here, I describe my workflow for the BUSCO genes dataset #
+### Later success in April ###
+UPDATE (way later in April): I got BUSCO going on my lab's workstation since it has a lot more computational capability than my laptop. I copied the raw genome sequences from my laptop over to the workstation with `scp`, then installed BUSCO's version 6.0.0 with conda, and it was off to the races.
+
+To run BUSCO on each genome fasta in the `raw_data/` folder, I used the following command:
+`for taxon in "a_americanum" "d_variabilis" "h_longicornis" "i_hexagonus" "i_inopinatus" "i_pacificus" "i_persulcatus" "i_ricinus" "i_scapularis" "o_turicata" "r_sanguineus"; do busco -i "${taxon}.fna" -l acari -m genome -c 20 -o "../busco_${taxon}_acari"; done`
+This runs BUSCO on every genome assembly and makes a new output folder for each. I could also have used `for file in *.fna` with `"${file:0:-4}"` to take out the .fna later on.
+
+From here, I gathered the summary statistics files for each run with the command `mkdir busco_0_summaries; for dirname in busco_*_acari; do cp "${dirname}/short_summary.specific.acari_odb12.${dirname}.txt" "busco_0_summaries/${dirname}.txt"; done`.
+
+Completeness scores with the acari_odb12 lineage were as follows: A. americanum (97.6%), D. variabilis (99.8%), H. longicornis (98.4%), I. hexagonus (88.5%), I. inopinatus (96.8%), I. pacificus (89.1%), I. persulcatus (82.6%), I. ricinus (92.1%), I. scapularis (99.2%), O. turicata (98.0%), and R. sanguineus (97.3%). Ixodes inopinatus had only 441 complete single copy genes, oddly, while the other taxa all had greater than 1500, so I may have to remove it for some parts of the analysis. The number of scaffolds of each assembly varied greatly, from under 1000 in A. americanum/D. variabilis/H. longicornis/I. scapularis/O. turicata, to 2300 in R. sanguineus, 25000 in Ixodes ricinus, and over 90000 in I. hexagonus/I. inopinatus/I. pacificus/I. persulcatus.
+
+After the summary statistics, I used these commands to pull out all of the single copy BUSCO genes and compile them: 
+1. Set up file system (in `nathan_ticks_phylo`, makes one new folder with a subfolder for each species inside): `mkdir busco_1_single_copy_genes; for dirname in busco_*_acari; do mkdir "busco_1_single_copy_genes/${dirname:6:-6}"; done`
+2. Copy .gff files into respective species folders (in `nathan_ticks_phylo`, takes ~30 seconds): `for dirname in busco_*_acari; do for gff_file in ${dirname}/run_acari_odb12/busco_sequences/single_copy_busco_sequences/*.gff; do cp "${gff_file}" "./busco_1_single_copy_genes/${dirname:6:-6}/"; done; done`
+3. Convert .gff to .fna with gffread (in `busco_1_single_copy_genes/`, first conda install gffread, this step will take ~100 minutes if we have ~18,000 items to get through and we convert ~3 files per second): `for species in *; do for gff_file in $species/*.gff; do gffread ${gff_file -g "../raw_data/${species}.fna" -w "${gff_file:0:-4}.fna"; done; done`
+4. Relabel fasta headers of each gene to the species name (each "104at6933"-esque file is a different gene, look them up in the `acari_odb12` lineage download in https://busco-data.ezlab.org/v5/data/lineages/): (in `busco_1_single_copy_genes/`, we are going to relabel the fasta header of each "104at6933.fna" file with just the species name and keep the file names the same) `for species in *; do for fna_file in $species/*.fna; do sed -i "1s/.*/>${species}/" $fna_file; done; done`
+5. Merging to make combined fastas for each gene (in `busco_1_single_copy_genes`, in a new directory it makes new files for each gene and appends each species' sequence into those files): `mkdir busco_2_merged_fnas; for species in *; do for fna_file in $species/*.fna; do cat $fna_file >> "../busco_2_merged_fnas/${fna_file##*/}"; done; done`
+
+The end results of this are now found in the workstation's `nathan_ticks_phylo/busco_2_merged_fnas` directory. I moved it over to my laptop for the phylogenetics work using `scp -r [source] [destination]` and placed everything into a new phylo-class directory `0_busco_sc_genes_merged_fnas/`.
+
+### Assessing and filtering/subsetting the genes retrieved from BUSCO ###
+I wanted to see in which genes all species were represented and if there were any systematic missing data issues such as a couple taxa being underrepresented. 
+
+I first determined which species were represented in which genes, pulling out the fasta headers for each gene and making a single tab-separated-values file for this, `0b_busco_genes_info.tsv`, in the main repository. In the `0_busco_sc_genes_merged_fnas/` directory on my laptop (everything from here on out will be on my own laptop), I first cleared out any existing gene info file with `rm "../0b_busco_genes_info.tsv"`, then ran the following command, which, for each gene, pulls out fasta headers, removes the >, places them into an array, uses that to make a new array with the gene as the first element, then adds that new array to the .tsv file: `for fna_file in *.fna; do readarray -t gene_array < <(grep ">" $fna_file | tr -d ">"); for_tsv=("${fna_file:0:-4} ${gene_array[@]}); (IFS="\t", printf "%s\n" "${for_tsv[*]}") >> "../0b_busco_genes_info.tsv"; done`.
+
+I then used the script `0a_investigating_busco_genes.R` in the `scripts/` folder to visualize how many taxa were represented in each gene. 203 genes had all taxa represented, 238 genes had all Ixodes species represented, and 956 genes had all Ixodes species sans I. inopinatus represented (recall earlier in the script where it was mentioned that I. inopinatus only had ~400 single copy genes and thus might need to be trimmed out of some facets of the analysis). 
+
+Using the previous script to generate lists of genes corresponding to the three categories (all taxa represented, all Ixodes represented, and all Ixodes sans I. inopinatus represented), I created another script, `0b_subsetting_busco_genes.sh` in the `scripts/` folder to make new folders for genes of each category and copy gene files from `../0_busco_sc_genes_merged_fnas/` into their appropriate category folders. I can use `ls | wc -l` in each folder to verify the number of genes inside.
+
+HOWEVER -- I realized that it would be quicker to align and build gene trees on all the genes, then subset the gene trees for the concatenation and coalescent approaches, rather than trying to run these steps on each gene set. I'll come back to `0b_subsetting_busco_genes.sh` later. I WILL USE IT TO FILTER THE GENES FIRST THOUGH, copying the 956 genes identified with all Ixodes taxa sans inopinatus present into the `../1_filtered_busco_sc_genes/` folder.
+
+### Aligning BUSCO genes with MAFFT ###
+I am using MAFFT, which uses the Fast Fourier Transform approach to infer homologous regions between sequences to reduce comparisons and time needed for sequence alignment. It assumes at the very least that the input sequences are homologous.
+
+I ran MAFFT with the \*G-INS-i accuracy-oriented, iterative refinement method incorporating global pairwise alignment because I had fewer than 200 sequences (only 11 max). I chose \*G-INS-i instead of \*L-INS-i or \*E-INS-i because the sequences were of similar length and did not contain large unalignable regions. By default, the local pairwise alignment gap opening penalty was -2.00, the local pairwise alignment offset value was 0.1, and the local pairwise alignment gap extension penalty was -0.1.
+
+(In the `phylo-class/` main folder, with the alignments_env conda environment containing MAFFT active)
+`conda activate alignments_env`
+`mkdir 2_aligned_filtered_busco_sc_genes`
+`for fna_file in ./1_filtered_busco_sc_genes/*.fna; do out_path_intermediate="./2_aligned_filtered_busco_sc_genes/${fna_file##*/}"; mafft --globalpair --maxiterate 1000 $fna_file > "${out_path_intermediate:0:-4}_mafft_align.fna"; done`
+
+It took just about 2 hours for these 956 genes.
+
+### BUSCO gene trees with RAxML ###
+I used RAxML-NG version 2.0.0 (and IQ-TREE version 3 later) to make maximum-likelihood trees for each gene with 100 bootstrap replicates.
+
+I made a script, `0d_raxml_gene_trees.sh`, which runs RAxML on each file in the specified directory (`2_aligned_filtered_busco_sc_genes/` in this case), while keeping track of which files RAxML was already run on, and moving the results into the `3_busco_sc_gene_trees_raxml_w_bs/` folder. I added the `--all` and ``--bs-trees 100` flags to run 100 bootstrap replicates in addition to finding the best tree. I used automatic model selection for these runs, and it took far less time than the alignment (~1 hour). Best trees with bootstrap support values can be found in the `*.raxml.support` files.
+
+### Smaller concatenation ###
+To make the concatenation, I used the script `0cb_make_smaller_supermatrix.R`, which uses the ape package and creates a temporary Phylip file before outputting a supermatrix called `smaller-supermatrix.fasta` in the `2ba_smaller_supermatrix/` directory. Smaller supermatrix here refers to the fact that I am only using the 238 genes dataset (the 956 genes one was too big to run with RAxML on my laptop).
+
+From here, I ran RAxML in this `2ba_smaller_supermatrix/` folder with the command `raxml-ng --all --msa smaller_supermatrix.fna --bs-trees 100 --model auto --data-type DNA`. The main output file of interest is `smaller_supermatrix.fna.raxml.support`, which contains the best tree and bootstrap support values. It took around 50 minutes to do 100 bootstrap replicates for this concatenation.
+
+### ASTRAL-IV species tree ###
+As mentioned above, I used ASTRAL-IV version 1.24.4.8 to create a species tree from an object containing many gene trees. I first collapsed nodes of the gene tree inputs with less than 70% support in the `0e_compile_raxml_gene_trees.R` script, using the d2multi function in the ape package, then ran the command `astral4 --root o_turicata -t 4 -o 5_species_tree_astral4_collapsed_input.tre -i 4b_all_filtered_busco_gene_trees_collapsed.tre`. The `-t 4` option specifies the use of four threads, but it didn't seem to need it because the command took less than a minute to complete. This creates the species tree `5_species_tree_astral4_collapsed_input.tre` in my main repository folder. 
+
+### Final tree visualizations ###
+I did all of the final tree visualizations for the report's figures in the `tree_visualization.R` script. I discovered that a simple way to plot trees with bootstrap values is to use the base R `plot` function after using the ape package's `read.tree` function, along with ape's `node_labels` function with `text=tree$node.labels` and `frame="circle"`. Other miscellaneous functions used included ape's `root` and `drop.tip`, and I used treeio's `read.mrbayes` and ggtree's `ggtree + geom_text2` to read in and plot trees with support values from the Nexus file produced by MrBayes.

@@ -1,0 +1,4 @@
+(a_americanum:0.100000,(i_hexagonus:0.100000,(i_persulcatus:0.100000,(i_scapularis:0.100000,(i_ricinus:0.100000,(i_pacificus:0.100000,d_variabilis:0.100000):0.100000):0.100000):0.100000):0.100000):0.100000,h_longicornis:0.100000);
+((((i_pacificus:0.055455,i_ricinus:0.055455):0.055455,i_scapularis:0.055455):0.055455,i_persulcatus:0.055455):0.055455,i_hexagonus:0.055455,((a_americanum:0.055455,d_variabilis:0.055455):0.055455,h_longicornis:0.055455):0.055455);
+((i_ricinus:0.055455,i_pacificus:0.055455):0.055455,i_scapularis:0.055455,(((h_longicornis:0.055455,(a_americanum:0.055455,d_variabilis:0.055455):0.055455):0.055455,i_hexagonus:0.055455):0.055455,i_persulcatus:0.055455):0.055455);
+((i_scapularis:0.055553,i_pacificus:0.055553):0.055553,i_ricinus:0.055553,(((h_longicornis:0.055553,(d_variabilis:0.055553,a_americanum:0.055553):0.055553):0.055553,i_hexagonus:0.055553):0.055553,i_persulcatus:0.055553):0.055553);

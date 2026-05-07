@@ -1,0 +1,4 @@
+((o_turicata:0.512502,(h_longicornis:0.130661,d_variabilis:0.191197):0.197287):0.162614,i_hexagonus:0.095760,(((i_pacificus:0.011321,i_persulcatus:0.136311):0.001673,i_scapularis:0.019813):0.009011,i_ricinus:0.017403):0.056538);
+(i_hexagonus:0.094354,(((i_pacificus:0.011273,i_persulcatus:0.134889):0.001664,i_scapularis:0.019713):0.008982,i_ricinus:0.017311):0.056676,(o_turicata:0.496811,(h_longicornis:0.129695,d_variabilis:0.187644):0.190952):0.162059);
+(i_persulcatus:0.135114,(i_scapularis:0.019706,((((h_longicornis:0.129336,d_variabilis:0.187180):0.190268,o_turicata:0.496808):0.161991,i_hexagonus:0.094127):0.056890,i_ricinus:0.017344):0.008977):0.001662,i_pacificus:0.011295);
+(((((i_pacificus:0.011284,i_persulcatus:0.135046):0.001670,i_scapularis:0.019739):0.009002,i_ricinus:0.017328):0.057303,i_hexagonus:0.093774):0.161039,o_turicata:0.495613,(h_longicornis:0.129480,d_variabilis:0.187437):0.190465);

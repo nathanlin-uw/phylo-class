@@ -1,0 +1,3 @@
+((((i_scapularis:0.100000,i_persulcatus:0.100000):0.100000,i_pacificus:0.100000):0.100000,a_americanum:0.100000):0.100000,h_longicornis:0.100000,((r_sanguineus:0.100000,i_ricinus:0.100000):0.100000,i_hexagonus:0.100000):0.100000);
+((i_ricinus:0.045058,i_persulcatus:0.045058):0.045058,((i_hexagonus:0.045058,((r_sanguineus:0.045058,a_americanum:0.045058):0.045058,h_longicornis:0.045058):0.045058):0.045058,i_scapularis:0.045058):0.045058,i_pacificus:0.045058);
+(((i_scapularis:0.045058,(((r_sanguineus:0.045058,a_americanum:0.045058):0.045058,h_longicornis:0.045058):0.045058,i_hexagonus:0.045058):0.045058):0.045058,i_ricinus:0.045058):0.045058,i_pacificus:0.045058,i_persulcatus:0.045058);
